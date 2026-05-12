@@ -34,8 +34,7 @@ jobs:
           path: build/libs/
 
       - name: Create Release
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "build/libs/*.jar"
-          draft: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+         gh release create ${GITHUB_REF#refs/tags/} build/libs/*.jar --draft
