@@ -7,9 +7,4 @@ public class SimplePasswordPlugin extends BasePlugin {
     public SimplePasswordPlugin(PluginContext pluginContext) {
         super(pluginContext);
     }
-
-    @Override
-    public void onCreate(PluginContext context) {
-        getLogger().info("Simple Password Plugin created!");
-    }
 }
