@@ -7,7 +7,6 @@ version = '1.0.0'
 
 repositories {
     mavenCentral()
-    maven { url 'https://repo.maven.apache.org/maven2' }
 }
 
 configurations {
@@ -15,7 +14,8 @@ configurations {
 }
 
 dependencies {
-    compileOnly 'run.halo.app:api:2.24.0'
+    implementation platform("run.halo.tools.platform:plugin:2.24.0")
+    compileOnly 'run.halo.app:api'
 }
 
 java {
