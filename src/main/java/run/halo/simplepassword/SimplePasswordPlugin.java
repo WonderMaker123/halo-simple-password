@@ -9,7 +9,7 @@ public class SimplePasswordPlugin extends BasePlugin {
     }
 
     @Override
-    public void onStart() {
-        getLogger().info("Simple Password Plugin started!");
+    public void onCreate(PluginContext context) {
+        getLogger().info("Simple Password Plugin created!");
     }
 }
