@@ -15,7 +15,7 @@ configurations {
 }
 
 dependencies {
-    compileOnly 'run.halo:api:2.24.0'
+    compileOnly 'run.halo.app:api:2.24.0'
 }
 
 java {
