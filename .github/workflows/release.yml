@@ -18,12 +18,11 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      - name: Build
-        run: |
-          chmod +x ./gradlew
-          ./gradlew build
+      - name: Show Java version
+        run: java -version
 
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: build/libs/*.jar
+      - name: Show Gradle version
+        run: ./gradlew --version
+
+      - name: Build with debug
+        run: ./gradlew build --info 2>&1 | tail -100
