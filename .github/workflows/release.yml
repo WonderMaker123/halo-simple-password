@@ -21,8 +21,13 @@ jobs:
       - name: Build
         run: ./gradlew build
 
+      - name: List built files
+        run: ls -la build/libs/
+
       - name: Create Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh release create ${GITHUB_REF#refs/tags/} build/libs/*.jar --title "halo-simple-password ${GITHUB_REF#refs/tags/}" --draft
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/libs/"
+          artifactContentType: "application/java-archive"
+          draft: true
+          token: ${{ secrets.GITHUB_TOKEN }}
