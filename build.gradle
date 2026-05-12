@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'io.freefair.lombok' version '8.14'
     id 'run.halo.plugin.devtools' version '0.6.2'
 }
 
@@ -20,7 +19,7 @@ dependencies {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
