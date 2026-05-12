@@ -21,13 +21,28 @@ jobs:
       - name: Build
         run: ./gradlew build
 
-      - name: List built files
-        run: ls -la build/libs/
-
       - name: Create Release
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "build/libs/"
-          artifactContentType: "application/java-archive"
-          draft: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${GITHUB_REF#refs/tags/}
+        run: |
+          # Find the JAR file
+          JAR_FILE=$(ls build/libs/*.jar | head -1)
+          echo "Found JAR: $JAR_FILE"
+
+          # Create draft release
+          RESP=$(curl -s -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Content-Type: application/json" \
+            https://api.github.com/repos/$GITHUB_REPOSITORY/releases \
+            -d "{\"tag_name\":\"$TAG\",\"name\":\"$TAG\",\"draft\":true}")
+          RELEASE_ID=$(echo $RESP | python3 -c "import sys,json; print(json.load(sys.stdin).get('id',''))")
+          echo "Created release ID: $RELEASE_ID"
+
+          # Upload JAR
+          UPLOAD_RESP=$(curl -s -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Content-Type: application/java-archive" \
+            --data-binary "@$JAR_FILE" \
+            "https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID/assets?name=$(basename $JAR_FILE)")
+          echo "Upload response: $UPLOAD_RESP" | python3 -c "import sys; import json; d=json.loads(sys.stdin.read().replace('Upload response: ','')); print('URL:', d.get('browser_download_url', d.get('message','')))"
