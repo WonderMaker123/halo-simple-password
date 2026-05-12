@@ -1,34 +1,33 @@
 plugins {
-    id 'java'
-    id 'run.halo.plugin.devtools' version '0.6.2'
+    id 'java-library'
 }
 
 group = 'run.halo.simplepassword'
 version = '1.0.0'
 
-def haloPlatformVersion = '2.24.0'
-
 repositories {
     mavenCentral()
+    maven { url 'https://repo.maven.apache.org/maven2' }
+}
+
+configurations {
+    compileOnly
 }
 
 dependencies {
-    implementation platform("run.halo.tools.platform:plugin:${haloPlatformVersion}")
-    compileOnly 'run.halo.app:api'
+    compileOnly 'run.halo:api:2.24.0'
 }
 
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
-tasks.withType(JavaCompile).configureEach {
+tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
-    options.release = 21
 }
 
-tasks.named('processResources') {
+processResources {
     inputs.property('pluginVersion', project.version)
     filesMatching('plugin.yaml') {
         expand(pluginVersion: project.version)
