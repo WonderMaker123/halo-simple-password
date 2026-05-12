@@ -1,0 +1,18 @@
+apiVersion: plugin.halo.run/v1alpha1
+kind: Plugin
+metadata:
+  name: halo-simple-password
+  version: ${pluginVersion}
+spec:
+  name: 简单密码插件
+  version: ${pluginVersion}
+  description: 给文章添加密码访问保护，简单实用
+  author:
+    name: Developer
+  logo: |
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <rect fill="#4A90E2" width="100" height="100" rx="20"/>
+      <circle cx="50" cy="40" r="20" fill="none" stroke="white" stroke-width="6"/>
+      <rect x="30" y="45" width="40" height="30" rx="5" fill="white"/>
+      <circle cx="50" cy="60" r="5" fill="#4A90E2"/>
+    </svg>

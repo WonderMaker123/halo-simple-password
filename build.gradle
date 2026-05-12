@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+    id 'io.freefair.lombok' version '8.14'
+    id 'run.halo.plugin.devtools' version '0.6.2'
+}
+
+group = 'run.halo.simplepassword'
+version = '1.0.0'
+
+def haloPlatformVersion = '2.24.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation platform("run.halo.tools.platform:plugin:${haloPlatformVersion}")
+    compileOnly 'run.halo.app:api'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 21
+}
+
+tasks.named('processResources') {
+    inputs.property('pluginVersion', project.version)
+    filesMatching('plugin.yaml') {
+        expand(pluginVersion: project.version)
+    }
+}

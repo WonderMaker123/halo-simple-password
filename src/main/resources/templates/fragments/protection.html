@@ -1,0 +1,44 @@
+<!--
+  简单密码保护 Thymeleaf 片段
+
+  使用方式（在文章页面模板中）:
+  <div th:replace="plugin:halo-simple-password:fragments/protection :: protection(post=${post}, content=~{::content})">
+    <article th:fragment="content">
+      你的文章内容...
+    </article>
+  </div>
+-->
+<div th:fragment="protection" th:with="password=${post.meta['simple-password']}">
+  <!-- 引入 CSS 和 JS -->
+  <link rel="stylesheet" th:href="@{/plugins/halo-simple-password/assets/simple-password.css}">
+  <script th:src="@{/plugins/halo-simple-password/assets/simple-password.js}"></script>
+
+  <!-- 受保护的内容容器 -->
+  <div class="spp-wrapper"
+       th:data-spp-post-id="${post.id}"
+       th:data-spp-password="${password ?: ''}">
+
+    <!-- 密码输入遮罩层 -->
+    <div class="spp-overlay" th:style="${password} ? 'display:flex' : 'display:none'">
+      <div class="spp-card">
+        <div class="spp-icon">🔒</div>
+        <h2>此文章受密码保护</h2>
+        <p>请输入密码访问</p>
+        <form class="spp-form">
+          <input type="password"
+                 class="spp-input"
+                 placeholder="请输入密码"
+                 autocomplete="off"
+                 required>
+          <button type="submit" class="spp-button">验证</button>
+        </form>
+        <p class="spp-error">密码错误，请重试</p>
+      </div>
+    </div>
+
+    <!-- 实际内容 -->
+    <div class="spp-content" th:style="${password} ? 'display:none' : 'display:block'">
+      <th:block th:insert="${content}" />
+    </div>
+  </div>
+</div>
