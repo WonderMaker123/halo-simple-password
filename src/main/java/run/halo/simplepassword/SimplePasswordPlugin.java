@@ -1,10 +1,10 @@
 package run.halo.simplepassword;
 
-import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
 import run.halo.app.plugin.BasePlugin;
 import run.halo.app.plugin.PluginContext;
 
-@Component
+@Slf4j
 public class SimplePasswordPlugin extends BasePlugin {
     public SimplePasswordPlugin(PluginContext pluginContext) {
         super(pluginContext);
@@ -12,6 +12,6 @@ public class SimplePasswordPlugin extends BasePlugin {
 
     @Override
     public void onStartup() {
-        getLogger().info("Simple Password Plugin started!");
+        log.info("Simple Password Plugin started!");
     }
 }
